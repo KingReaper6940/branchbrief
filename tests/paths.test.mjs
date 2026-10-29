@@ -5,3 +5,5 @@ test('duplicates warn, implicit directories can be made explicit',()=>{const r=p
 test('file-directory conflicts fail in either order',()=>{for(const p of ['a\na/b','a/b\na','a/\na'])assert.equal(parse(p).valid,false);});
 test('normalization is a hint and exact names remain distinct',()=>{const r=parse('README\nreadme\ncafé/x\ncafe\u0301/x');assert.equal(r.files,4);assert.ok(r.diagnostics.filter(d=>d.code==='name-hint').length>=2);assert.equal(r.valid,true);});
 test('empty source is a valid empty manifest and prototype names are ordinary',()=>{assert.equal(parse('').entries.length,0);assert.equal(parse('__proto__/constructor').files,1);});
+
+test('quoted Git output is rejected instead of silently becoming a literal path',()=>{assert.equal(parse('"caf\\303\\251.txt"').valid,false);});

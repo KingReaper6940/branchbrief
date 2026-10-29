@@ -14,7 +14,7 @@ export function parseManifest(source) {
     const directory = path.endsWith('/');
     if (directory) path = path.slice(0, -1);
     const parts = path.split('/');
-    if (!path || /^[A-Za-z]:/.test(path) || path.startsWith('/') || path.includes(':') || /[\p{Cc}\p{Cf}\p{Cs}\u2028\u2029]/u.test(path)) {
+    if (!path || path.startsWith('"') || /^[A-Za-z]:/.test(path) || path.startsWith('/') || path.includes(':') || /[\p{Cc}\p{Cf}\p{Cs}\u2028\u2029]/u.test(path)) {
       issue(line, 'syntax', 'Use a printable relative path without a drive, colon, control or invisible format character.'); continue;
     }
     if (parts.length > LIMITS.depth || parts.some(p => !p || p === '.' || p === '..' || p.trim() !== p || p.length > LIMITS.segment)) {

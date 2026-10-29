@@ -1,0 +1,4 @@
+import {writeFile,mkdir} from 'node:fs/promises';import {EXAMPLE} from '../src/example.mjs';import {parseManifest} from '../src/paths.mjs';import {renderTree} from '../src/tree.mjs';import {compareManifests,makeReport} from '../src/compare.mjs';
+const before=parseManifest(EXAMPLE.before),after=parseManifest(EXAMPLE.after),diff=compareManifests(before,after),directory=new URL('../examples/',import.meta.url);await mkdir(directory,{recursive:true});
+for(const [name,text] of Object.entries({'tree.txt':renderTree(after,{label:'fieldnotes'}),'report.json':JSON.stringify(makeReport(before,after,diff),null,2)+'\n','project.json':JSON.stringify({schema:'branchbrief-project-v1',...EXAMPLE,label:'fieldnotes',ascii:false,foldersFirst:true},null,2)+'\n'}))await writeFile(new URL(name,directory),text);
+console.log(JSON.stringify(diff.counts));

@@ -1,10 +1,10 @@
 import {fence} from './tree.mjs';import {makeReport} from './compare.mjs';import {validateProject,parseProject,normalizedList} from './project.mjs';
 const $=id=>document.getElementById(id);
 export function installHandoff({getState,analyze}){
-  let urls=[];
+  let urls=[],revision=0;
   function release(){for(const u of urls)URL.revokeObjectURL(u);urls=[];}
   function url(text,type){const u=URL.createObjectURL(new Blob([text],{type}));urls.push(u);return u;}
-  document.addEventListener('branchbrief:clear',release);
+  document.addEventListener('branchbrief:clear',()=>{revision++;release();});
   document.addEventListener('branchbrief:ready',()=>{
     const state=getState();if(!state)return;
     const report=makeReport(state.before,state.after,state.diff);
@@ -22,10 +22,11 @@ export function installHandoff({getState,analyze}){
     }catch(error){$('file-status').textContent=error.message;}
   });
   $('open').addEventListener('change',async()=>{
-    const file=$('open').files?.[0];if(!file)return;
+    const file=$('open').files?.[0];if(!file)return;const startRevision=revision;
     try{
       if(file.size>2000000)throw new Error('Use a project file up to 2 MB.');
       const project=parseProject(await file.text());
+      if(revision!==startRevision)throw new Error('Work changed while the file was loading. Current work was preserved; open again to replace it.');
       for(const side of ['before','after'])$(side).value=project[side];
       $('label').value=project.label;$('style').value=project.ascii?'ascii':'unicode';$('folders').checked=project.foldersFirst;
       analyze();$('file-status').textContent='Project opened. Lists and tree options restored.';

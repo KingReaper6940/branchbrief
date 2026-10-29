@@ -1,0 +1,70 @@
+{
+  "schema": "branchbrief-report-v1",
+  "scope": "Exact relative paths and file/directory kinds, including implied directories. No file contents or rename inference.",
+  "before": {
+    "files": 5,
+    "directories": 5,
+    "diagnostics": []
+  },
+  "after": {
+    "files": 7,
+    "directories": 7,
+    "diagnostics": []
+  },
+  "counts": {
+    "added": 5,
+    "removed": 1,
+    "type": 0,
+    "unchanged": 9
+  },
+  "changes": [
+    {
+      "path": "docs/usage.md",
+      "status": "added",
+      "beforeKind": null,
+      "afterKind": "file",
+      "beforeLine": null,
+      "afterLine": 6
+    },
+    {
+      "path": "src/components",
+      "status": "added",
+      "beforeKind": null,
+      "afterKind": "directory",
+      "beforeLine": null,
+      "afterLine": 4
+    },
+    {
+      "path": "src/components/Header.js",
+      "status": "added",
+      "beforeKind": null,
+      "afterKind": "file",
+      "beforeLine": null,
+      "afterLine": 4
+    },
+    {
+      "path": "src/index.js",
+      "status": "removed",
+      "beforeKind": "file",
+      "afterKind": null,
+      "beforeLine": 2,
+      "afterLine": null
+    },
+    {
+      "path": "src/main.js",
+      "status": "added",
+      "beforeKind": null,
+      "afterKind": "file",
+      "beforeLine": null,
+      "afterLine": 2
+    },
+    {
+      "path": "tests/integration",
+      "status": "added",
+      "beforeKind": null,
+      "afterKind": "directory",
+      "beforeLine": null,
+      "afterLine": 9
+    }
+  ]
+}
