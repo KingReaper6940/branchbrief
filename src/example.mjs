@@ -1,0 +1,1 @@
+export const EXAMPLE = {before:'README.md\nsrc/index.js\nsrc/theme.css\ndocs/start.md\npublic/logo.svg\ntests/unit/',after:'README.md\nsrc/main.js\nsrc/theme.css\nsrc/components/Header.js\ndocs/start.md\ndocs/usage.md\npublic/logo.svg\ntests/unit/\ntests/integration/'};
