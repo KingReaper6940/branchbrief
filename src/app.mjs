@@ -1,10 +1,11 @@
+import {installHandoff} from './handoff.mjs';
 import {parseManifest} from './paths.mjs';
 import {renderTree,treePreview} from './tree.mjs';
 import {compareManifests} from './compare.mjs';
 import {EXAMPLE} from './example.mjs';
 const $=id=>document.getElementById(id);
 let state=null, page=0;
-function clear(){state=null;$('results').hidden=true;$('diagnostics').hidden=true;$('downloads').replaceChildren();$('save').disabled=true;$('status').textContent='Inputs changed. Compare again to refresh results.';}
+function clear(){document.dispatchEvent(new CustomEvent('branchbrief:clear'));state=null;$('results').hidden=true;$('diagnostics').hidden=true;$('downloads').replaceChildren();$('save').disabled=true;$('status').textContent='Inputs changed. Compare again to refresh results.';}
 function receipts(){
   if(!state)return;
   const all=state.diff.changes.filter(c=>$('filter').value==='all'||c.status===$('filter').value),pages=Math.max(1,Math.ceil(all.length/50));
@@ -45,4 +46,5 @@ $('example').addEventListener('click',()=>{for(const side of ['before','after'])
 for(const side of ['before','after'])$(side).value=EXAMPLE[side];$('label').value='fieldnotes';
 export const getState=()=>state;
 export {clear};
+installHandoff({getState,analyze});
 analyze();
