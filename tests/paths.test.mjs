@@ -1,0 +1,7 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {parseManifest as parse} from '../src/paths.mjs';
+test('relative lists preserve inner spaces and expand directories',()=>{const r=parse('./src\\main.js\nempty/\nnotes/my note.md');assert.equal(r.valid,true);assert.equal(r.files,2);assert.equal(r.directories,3);assert.equal(r.entries.find(e=>e.path==='src/main.js').line,1);});
+test('absolute, traversal, invisible, whitespace, long and deep input is blocked',()=>{for(const p of ['/etc/passwd','C:\\a','../a','a//b','a/./b','a /b','a\u200bb','a:stream','a/\ud800','x/'.repeat(25)+'z','z'.repeat(121)])assert.equal(parse(p).valid,false,p);assert.throws(()=>parse('x'.repeat(100001)));assert.throws(()=>parse('\n'.repeat(1000)));});
+test('duplicates warn, implicit directories can be made explicit',()=>{const r=parse('a/b\na/\na/b');assert.equal(r.valid,true);assert.equal(r.entries.length,2);assert.equal(r.diagnostics.length,1);assert.equal(r.diagnostics[0].line,3);});
+test('file-directory conflicts fail in either order',()=>{for(const p of ['a\na/b','a/b\na','a/\na'])assert.equal(parse(p).valid,false);});
+test('normalization is a hint and exact names remain distinct',()=>{const r=parse('README\nreadme\ncafé/x\ncafe\u0301/x');assert.equal(r.files,4);assert.ok(r.diagnostics.filter(d=>d.code==='name-hint').length>=2);assert.equal(r.valid,true);});
+test('empty source is a valid empty manifest and prototype names are ordinary',()=>{assert.equal(parse('').entries.length,0);assert.equal(parse('__proto__/constructor').files,1);});
