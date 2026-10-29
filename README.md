@@ -1,5 +1,7 @@
 # Branchbrief
 
+[Open Branchbrief](https://branchbrief.vercel.app)
+
 **A clearer view of your file lists.** Compare two relative-path snapshots, inspect the current folder tree, and export a structural handoff without granting repository or filesystem access.
 
 ## What it does
